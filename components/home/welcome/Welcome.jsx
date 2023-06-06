@@ -8,7 +8,9 @@ const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
     <View>
       <View style={styles.container}>
         <Text style={styles.userName}>Hello Anam</Text>
-        <Text style={styles.welcomeMessage}>Ingpo Loker</Text>
+        <Text style={styles.welcomeMessage}>
+          Nikmati Pengalaman Menginap Terbaik
+        </Text>
       </View>
 
       <View style={styles.searchContainer}>
