@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ScreenHeaderBtn } from "../../components";
 import { Stack, useRouter, useLocalSearchParams } from "expo-router";
@@ -18,13 +18,27 @@ import {
 } from "react-native";
 
 import { COLORS, SIZES, icons, SHADOWS } from "../../constants";
+import { setBook } from "../../src/redux/reducers/bookSlice";
+import { TextInput } from "react-native-gesture-handler";
 
 const Hotels = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const dispatch = useDispatch();
   const hotelDetail = useSelector(getHotelDetail);
+  const { user } = useSelector((state) => state.login);
   const isLoading = useSelector(getLoading);
+
+  const [malam, setMalam] = useState(1);
+  const [tamu, setTamu] = useState(1);
+  const [kamar, setKamar] = useState(1);
+
+  const handleBook = () => {
+    dispatch(
+      setBook({ ...hotelDetail, night: malam, room: kamar, guest: tamu })
+    );
+    router.push("/book");
+  };
 
   useEffect(() => {
     dispatch(fetchHotelDetail(id));
@@ -171,7 +185,9 @@ const Hotels = () => {
                 >
                   Harga
                 </Text>
-                <View style={{}}>
+                <View
+                  style={{ flexDirection: "row", alignItems: "center", gap: 5 }}
+                >
                   <Text
                     style={{
                       fontSize: SIZES.medium,
@@ -179,11 +195,66 @@ const Hotels = () => {
                     }}
                   >
                     RP{" "}
-                    {hotelDetail.composite_price_breakdown.all_inclusive_amount.value.toLocaleString(
-                      "en-ID"
-                    )}{" "}
-                    / malam
+                    {
+                      Number(
+                        hotelDetail.composite_price_breakdown
+                          .all_inclusive_amount.value *
+                          malam *
+                          kamar
+                      ).toLocaleString("en-ID")
+                      //   Number(kamar)}{" "}
+                    }
+                    /
                   </Text>
+                  <TextInput
+                    value={malam}
+                    keyboardType="numeric"
+                    style={{
+                      width: 25,
+                      backgroundColor: COLORS.lightWhite,
+                      ...SHADOWS.small,
+                      borderRadius: 5,
+                      marginRight: 5,
+                    }}
+                    onChangeText={(text) =>
+                      text === ""
+                        ? setMalam(1)
+                        : setMalam(Number(text.replace(/[^0-9]/g, "")))
+                    }
+                  />
+                  <Text>: Malam</Text>
+                  <TextInput
+                    value={kamar}
+                    keyboardType="numeric"
+                    style={{
+                      width: 25,
+                      backgroundColor: COLORS.lightWhite,
+                      ...SHADOWS.small,
+                      borderRadius: 5,
+                    }}
+                    onChangeText={(text) =>
+                      text === ""
+                        ? setKamar(1)
+                        : setKamar(Number(text.replace(/[^0-9]/g, "")))
+                    }
+                  />
+                  <Text>: Kamar</Text>
+                  <TextInput
+                    value={tamu}
+                    keyboardType="numeric"
+                    style={{
+                      width: 25,
+                      backgroundColor: COLORS.lightWhite,
+                      ...SHADOWS.small,
+                      borderRadius: 5,
+                    }}
+                    onChangeText={(text) =>
+                      text === ""
+                        ? setTamu(1)
+                        : setTamu(text.replace(/[^0-9]/g, ""))
+                    }
+                  />
+                  <Text>: Tamu</Text>
                 </View>
               </View>
               <View style={{ padding: SIZES.medium }}>
@@ -196,6 +267,8 @@ const Hotels = () => {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
+                  // disabled={malam}
+                  onPress={() => handleBook()}
                 >
                   <Text
                     style={{
