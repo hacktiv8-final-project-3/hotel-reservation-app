@@ -26,10 +26,7 @@ const City = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <Stack.Screen
         options={{
-          headerTitle: `  Hotel Di ${hotelsByCity[0]?.wishlistName}`,
-          headerStyle: {
-            backgroundColor: COLORS.lightWhite,
-          },
+          headerTitle: `Hotel Di ${hotelsByCity[0]?.wishlistName}`,
           headerLeft: () => (
             <ScreenHeaderBtn
               iconUrl={icons.left}
