@@ -1,12 +1,28 @@
-import { useRouter } from "expo-router";
 import { icons } from "../../constants";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-
+import { useRouter } from "expo-router";
 import styles from "./topcitylist.style";
+import { useDispatch, useSelector } from "react-redux";
 import ScreenHeaderBtn from "../header/ScreenHeaderBtn";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import {
+  addFavorite,
+  removeFavorite,
+  getFavorites,
+} from "../../src/redux/reducers/hotelSlice";
 
 const TopCityList = ({ data }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const favorites = useSelector(getFavorites);
+  const isSaved = favorites.some((favorite) => favorite.id === data.id);
+
+  const handleToggleSaved = () => {
+    if (isSaved) {
+      dispatch(removeFavorite(data.id));
+    } else {
+      dispatch(addFavorite(data));
+    }
+  };
 
   const handleNavigate = () => {
     router.push(`/hotels/${data.id}`);
@@ -34,13 +50,13 @@ const TopCityList = ({ data }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.btnFav}>
+      <TouchableOpacity style={styles.btnFav}>
         <ScreenHeaderBtn
-          iconUrl={icons.heart}
+          iconUrl={isSaved ? icons.heart : icons.favorites}
           dimension="80%"
-          handlePress={() => router.back()}
+          handlePress={handleToggleSaved}
         />
-      </View>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };

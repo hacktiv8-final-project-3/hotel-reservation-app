@@ -48,7 +48,7 @@ const Search = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <Stack.Screen
         options={{
-          headerTitle: `Detail Hotel`,
+          headerTitle: `Cari Hotel`,
           headerStyle: {
             backgroundColor: COLORS.lightWhite,
           },
