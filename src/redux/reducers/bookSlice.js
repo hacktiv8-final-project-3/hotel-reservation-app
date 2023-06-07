@@ -11,11 +11,9 @@ const bookSlice = createSlice({
   reducers: {
     setBook: (state, acttion) => {
       state.book = acttion.payload;
-      console.warn(state.book);
     },
     setBookHistory: (state, acttion) => {
       state.bookHistory = [...state.bookHistory, acttion.payload];
-      console.warn(state.bookHistory);
       state.book = [];
     },
   },
