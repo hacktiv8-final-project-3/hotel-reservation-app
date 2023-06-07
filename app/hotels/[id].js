@@ -55,10 +55,7 @@ const Hotels = () => {
     >
       <Stack.Screen
         options={{
-          headerTitle: `  Detail Hotel`,
-          headerStyle: {
-            backgroundColor: COLORS.lightWhite,
-          },
+          headerTitle: `Detail Hotel`,
           headerLeft: () => (
             <ScreenHeaderBtn
               iconUrl={icons.left}

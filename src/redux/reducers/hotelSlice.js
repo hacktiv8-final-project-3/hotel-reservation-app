@@ -28,13 +28,15 @@ export const fetchHotelsbyCity = createAsyncThunk(
         },
         headers: {
           "X-RapidAPI-Key":
-            "2f063587d8msh63c9deb79332953p135c72jsn28ce1d6b566f",
+            "f6a66ab9c2msh76762e5aaf466d1p188df6jsn6b65510bf43c",
           "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
         },
       };
       const response = await axios.request(options);
       return response.data.results;
-    } catch (error) {}
+    } catch (error) {
+      console.log("city", error);
+    }
   }
 );
 
@@ -59,14 +61,14 @@ export const fetchPopularHotel = createAsyncThunk(
         },
         headers: {
           "X-RapidAPI-Key":
-            "2f063587d8msh63c9deb79332953p135c72jsn28ce1d6b566f",
+            "f6a66ab9c2msh76762e5aaf466d1p188df6jsn6b65510bf43c",
           "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
         },
       };
       const response = await axios.request(options);
       return response.data.results;
     } catch (error) {
-      console.log(error);
+      console.log("popular", error);
     }
   }
 );
@@ -87,20 +89,76 @@ export const fetchHotelDetail = createAsyncThunk(
         },
         headers: {
           "X-RapidAPI-Key":
-            "2f063587d8msh63c9deb79332953p135c72jsn28ce1d6b566f",
+            "f6a66ab9c2msh76762e5aaf466d1p188df6jsn6b65510bf43c",
           "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
         },
       };
       const response = await axios.request(options);
       return response.data;
     } catch (error) {
-      console.log(error);
-      return rejectWithValue(error);
+      console.log("detail", error);
+    }
+  }
+);
+
+export const fetchCity = createAsyncThunk("hotels/fetchCity", async (name) => {
+  try {
+    const options = {
+      method: "GET",
+      url: "https://booking-com.p.rapidapi.com/v1/static/cities",
+      params: {
+        name: name,
+      },
+      headers: {
+        "X-RapidAPI-Key": "f6a66ab9c2msh76762e5aaf466d1p188df6jsn6b65510bf43c",
+        "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
+      },
+    };
+    const response = await axios.request(options);
+    // console.log(response.data.result[0]);
+    return response.data.result;
+  } catch (error) {
+    console.log("city", error);
+  }
+});
+
+export const fetchHotelSearch = createAsyncThunk(
+  "hotels/fetchHotelSearch",
+  async (city_id) => {
+    try {
+      const options = {
+        method: "GET",
+        url: "https://booking-com.p.rapidapi.com/v2/hotels/search",
+        params: {
+          order_by: "popularity",
+          adults_number: "1",
+          checkin_date: today,
+          filter_by_currency: "IDR",
+          dest_id: city_id,
+          locale: "en-gb",
+          checkout_date: tommorrow,
+          units: "metric",
+          room_number: "1",
+          dest_type: "city",
+        },
+        headers: {
+          "X-RapidAPI-Key":
+            "f6a66ab9c2msh76762e5aaf466d1p188df6jsn6b65510bf43c",
+          "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
+        },
+      };
+      const response = await axios.request(options);
+      // console.log(response.data.results);
+      return response.data.results;
+    } catch (error) {
+      console.log("search ", error);
     }
   }
 );
 
 const initialState = {
+  city: [],
+  search: [],
   hotelsByCity: [],
   popularHotel: [],
   hotelDetail: [],
@@ -111,7 +169,11 @@ const initialState = {
 const hotelSlice = createSlice({
   name: "hotels",
   initialState,
-  reducers: {},
+  reducers: {
+    clearSearch: (state) => {
+      state.search = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchHotelsbyCity.pending, (state) => {
@@ -149,14 +211,41 @@ const hotelSlice = createSlice({
       .addCase(fetchHotelDetail.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
+      })
+      .addCase(fetchCity.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(fetchCity.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.city = action.payload;
+      })
+      .addCase(fetchCity.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
+      .addCase(fetchHotelSearch.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(fetchHotelSearch.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.search = action.payload;
+      })
+      .addCase(fetchHotelSearch.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
       });
   },
 });
 
-// export const { addhotelsByCity } = hotelSlice.actions;
+export const { clearSearch } = hotelSlice.actions;
+
 export const getHotelsByCity = (state) => state.hotels.hotelsByCity;
 export const getPopularHotel = (state) => state.hotels.popularHotel;
 export const getHotelDetail = (state) => state.hotels.hotelDetail;
 export const getLoading = (state) => state.hotels.isLoading;
+export const getCity = (state) => state.hotels.city;
+export const getHotelSearch = (state) => state.hotels.search;
 
 export default hotelSlice.reducer;

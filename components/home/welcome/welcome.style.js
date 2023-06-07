@@ -3,36 +3,20 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONT, SIZES } from "../../../constants";
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
-  userName: {
-    fontFamily: FONT.regular,
-    fontSize: SIZES.large,
-    color: COLORS.secondary,
-  },
-  welcomeMessage: {
-    fontFamily: FONT.bold,
-    fontSize: SIZES.xxLarge,
-    color: COLORS.primary,
-
-    marginTop: 2,
-  },
+  container: { height: 150 },
   searchContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    width: "100%",
     marginTop: SIZES.large,
     height: 50,
   },
   searchWrapper: {
-    flex: 1,
+    width: "100%",
     backgroundColor: COLORS.white,
     marginRight: SIZES.small,
-    justifyContent: "center",
-    alignItems: "center",
     borderRadius: SIZES.medium,
-    height: "100%",
+    marginTop: SIZES.small,
+    height: 50,
+    marginBottom: 15,
   },
   searchInput: {
     fontFamily: FONT.regular,
@@ -41,33 +25,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.medium,
   },
   searchBtn: {
-    width: 50,
-    height: "100%",
+    flexDirection: "row",
+    width: "100%",
+    gap: 2,
+    padding: 15,
     backgroundColor: COLORS.tertiary,
     borderRadius: SIZES.medium,
     justifyContent: "center",
-    alignItems: "center",
   },
-  searchBtnImage: {
-    width: "50%",
-    height: "50%",
-    tintColor: COLORS.white,
+  searchBtnTxt: {
+    color: COLORS.white,
+    fontSize: SIZES.medium,
   },
-  tabsContainer: {
-    width: "100%",
-    marginTop: SIZES.medium,
-  },
-  tab: (activeJobType, item) => ({
-    paddingVertical: SIZES.small / 2,
-    paddingHorizontal: SIZES.small,
-    borderRadius: SIZES.medium,
-    borderWidth: 1,
-    borderColor: activeJobType === item ? COLORS.secondary : COLORS.gray2,
-  }),
-  tabText: (activeJobType, item) => ({
-    fontFamily: FONT.medium,
-    color: activeJobType === item ? COLORS.secondary : COLORS.gray2,
-  }),
 });
 
 export default styles;
