@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useRouter } from "expo-router";
 import { View, Text, FlatList } from "react-native";
 
@@ -46,11 +45,9 @@ const topCity = [
 
 const Popularjobs = () => {
   const router = useRouter();
-  const [selectedJob, setSelectedJob] = useState();
 
   const handleCardPress = (item) => {
     router.push(`/hotels/city/${item.city_id}`);
-    setSelectedJob(item.city_id);
   };
 
   return (

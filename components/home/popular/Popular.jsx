@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
-import { View, Text, FlatList } from "react-native";
-import { SIZES } from "../../../constants";
+import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import { SIZES, COLORS } from "../../../constants";
 import {
   fetchPopularHotel,
   getPopularHotel,
+  getLoading,
 } from "../../../src/redux/reducers/hotelSlice";
 
 import styles from "./popular.style";
@@ -15,6 +16,7 @@ const Popular = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const popularHotel = useSelector(getPopularHotel);
+  const isLoading = useSelector(getLoading);
 
   useEffect(() => {
     dispatch(fetchPopularHotel());
@@ -29,18 +31,25 @@ const Popular = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Hotel Populer</Text>
       </View>
-
-      <View style={styles.cardsContainer}>
-        <FlatList
-          data={popularHotel}
-          renderItem={({ item }) => (
-            <PopularCard data={item} handleCardPress={handleCardPress} />
-          )}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{ columnGap: SIZES.medium }}
-          horizontal
+      {isLoading ? (
+        <ActivityIndicator
+          style={{ marginTop: 50 }}
+          size="large"
+          color={COLORS.tertiary}
         />
-      </View>
+      ) : (
+        <View style={styles.cardsContainer}>
+          <FlatList
+            data={popularHotel}
+            renderItem={({ item }) => (
+              <PopularCard data={item} handleCardPress={handleCardPress} />
+            )}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ columnGap: SIZES.medium }}
+            horizontal
+          />
+        </View>
+      )}
     </View>
   );
 };
