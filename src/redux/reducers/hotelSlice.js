@@ -28,7 +28,7 @@ export const fetchHotelsbyCity = createAsyncThunk(
         },
         headers: {
           "X-RapidAPI-Key":
-            "129e0ebac8msh10b523d8b95c942p1b5391jsnb6e898a62e91",
+            "2f063587d8msh63c9deb79332953p135c72jsn28ce1d6b566f",
           "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
         },
       };
@@ -59,7 +59,7 @@ export const fetchPopularHotel = createAsyncThunk(
         },
         headers: {
           "X-RapidAPI-Key":
-            "129e0ebac8msh10b523d8b95c942p1b5391jsnb6e898a62e91",
+            "2f063587d8msh63c9deb79332953p135c72jsn28ce1d6b566f",
           "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
         },
       };
@@ -87,7 +87,7 @@ export const fetchHotelDetail = createAsyncThunk(
         },
         headers: {
           "X-RapidAPI-Key":
-            "129e0ebac8msh10b523d8b95c942p1b5391jsnb6e898a62e91",
+            "2f063587d8msh63c9deb79332953p135c72jsn28ce1d6b566f",
           "X-RapidAPI-Host": "booking-com.p.rapidapi.com",
         },
       };
