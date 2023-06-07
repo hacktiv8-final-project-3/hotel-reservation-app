@@ -161,6 +161,7 @@ const initialState = {
   search: [],
   hotelsByCity: [],
   popularHotel: [],
+  favorites: [],
   hotelDetail: [],
   isLoading: false,
   isError: false,
@@ -172,6 +173,14 @@ const hotelSlice = createSlice({
   reducers: {
     clearSearch: (state) => {
       state.search = [];
+    },
+    addFavorite: (state, action) => {
+      state.favorites.push(action.payload);
+    },
+    removeFavorite: (state, action) => {
+      state.favorites = state.favorites.filter(
+        (favorite) => favorite.id !== action.payload
+      );
     },
   },
   extraReducers: (builder) => {
@@ -239,7 +248,7 @@ const hotelSlice = createSlice({
   },
 });
 
-export const { clearSearch } = hotelSlice.actions;
+export const { clearSearch, addFavorite, removeFavorite } = hotelSlice.actions;
 
 export const getHotelsByCity = (state) => state.hotels.hotelsByCity;
 export const getPopularHotel = (state) => state.hotels.popularHotel;
@@ -247,5 +256,6 @@ export const getHotelDetail = (state) => state.hotels.hotelDetail;
 export const getLoading = (state) => state.hotels.isLoading;
 export const getCity = (state) => state.hotels.city;
 export const getHotelSearch = (state) => state.hotels.search;
+export const getFavorites = (state) => state.hotels.favorites;
 
 export default hotelSlice.reducer;

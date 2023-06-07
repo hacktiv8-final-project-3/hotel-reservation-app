@@ -13,7 +13,7 @@ const loginSlice = createSlice({
 
       console.warn(state.user, state.login);
     },
-    setLogout: (state, acttion) => {
+    setLogout: (state, action) => {
       state.user = [];
     },
   },
