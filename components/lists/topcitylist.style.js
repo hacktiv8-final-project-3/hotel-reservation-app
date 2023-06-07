@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   btnFav: {
     position: "absolute",
     top: 7,
-    right: 7,
+    right: 0,
   },
 });
 
