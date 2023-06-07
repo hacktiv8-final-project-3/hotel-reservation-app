@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import testSlice from "./reducers/testSlice";
 import hotelReducer from "./reducers/hotelSlice";
 import bookSlice from "./reducers/bookSlice";
 import loginSlice from "./reducers/loginSlice";
