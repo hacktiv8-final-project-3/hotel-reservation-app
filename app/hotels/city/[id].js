@@ -3,19 +3,20 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   fetchHotelsbyCity,
   getHotelsByCity,
+  getLoading,
 } from "../../../src/redux/reducers/hotelSlice";
 import { Stack, useRouter, useLocalSearchParams } from "expo-router";
 import { ScreenHeaderBtn } from "../../../components";
 import { COLORS, icons, SIZES } from "../../../constants";
-import { SafeAreaView, FlatList } from "react-native";
+import { SafeAreaView, FlatList, ActivityIndicator } from "react-native";
 import TopCityList from "../../../components/lists/TopCityList";
 
 const City = () => {
+  const { id } = useLocalSearchParams();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { id } = useLocalSearchParams();
-
   const hotelsByCity = useSelector(getHotelsByCity);
+  const isLoading = useSelector(getLoading);
 
   useEffect(() => {
     dispatch(fetchHotelsbyCity({ city_id: id }));
@@ -38,12 +39,23 @@ const City = () => {
           ),
         }}
       />
-      <FlatList
-        data={hotelsByCity}
-        renderItem={({ item }) => <TopCityList data={item} />}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{ padding: SIZES.medium, rowGap: SIZES.medium }}
-      />
+      {isLoading ? (
+        <ActivityIndicator
+          style={{ marginTop: 50 }}
+          size="large"
+          color={COLORS.primary}
+        />
+      ) : (
+        <FlatList
+          data={hotelsByCity}
+          renderItem={({ item }) => <TopCityList data={item} />}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{
+            padding: SIZES.medium,
+            rowGap: SIZES.medium,
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 };

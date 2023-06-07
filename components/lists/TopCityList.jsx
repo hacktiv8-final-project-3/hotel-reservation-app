@@ -5,8 +5,12 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "./topcitylist.style";
 import ScreenHeaderBtn from "../header/ScreenHeaderBtn";
 
-const TopCityList = ({ data, handleNavigate }) => {
+const TopCityList = ({ data }) => {
   const router = useRouter();
+
+  const handleNavigate = () => {
+    router.push(`/hotels/${data.id}`);
+  };
 
   return (
     <TouchableOpacity

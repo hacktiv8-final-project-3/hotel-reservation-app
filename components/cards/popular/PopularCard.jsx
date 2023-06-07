@@ -1,7 +1,5 @@
-import { useRouter } from "expo-router";
 import styles from "./popularcard.style";
-import { icons } from "../../../constants";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { Text, TouchableOpacity, Image } from "react-native";
 
 const PopularCard = ({ data, handleCardPress }) => {
   return (
